@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: core-api-guardrails
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/grid07
+    username: grid07_user
+    password: grid07_password
+    driver-class-name: org.postgresql.Driver
+
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+      jdbc:
+        time_zone: Asia/Kolkata     # Avoid time zone miss match problem
+
+  jackson:
+    time-zone: Asia/Kolkata
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 2000
+
+server:
+  port: 8080
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG

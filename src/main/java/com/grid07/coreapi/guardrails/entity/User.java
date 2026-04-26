@@ -2,6 +2,7 @@ package com.grid07.coreapi.guardrails.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,6 +24,7 @@ public class User {
     @Column(name = "is_premium", nullable = false)
     private boolean isPremium;
 
-    @Column(name = "created_at", nullable = false, updatable = false, insertable = false)
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 }

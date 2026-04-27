@@ -32,6 +32,11 @@ public class Comment {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
+    // support nested comments (reply-to-comment)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_comment_id")
+    private Comment parentComment;
+
     @Column(name = "depth_level", nullable = false)
     @Builder.Default
     private int depthLevel = 0;

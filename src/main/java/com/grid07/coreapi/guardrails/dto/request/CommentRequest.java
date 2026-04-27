@@ -15,7 +15,6 @@ public record CommentRequest(
         @Size(max = 5000, message = "Content too long")
         String content,
 
-        @Min(value = 0, message = "Depth cannot be negative")
-        @Max(value = 20, message = "Depth cannot exceed 20")
-        int depthLevel
+        // null represent top-level comment
+        Long parentCommentId
 ) {}

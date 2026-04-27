@@ -32,6 +32,7 @@ public class CommentService {
     private final GuardrailService guardrailService;
     private final ViralityService viralityService;
     private final StringRedisTemplate redisTemplate;
+    private final NotificationService notificationService;
 
     @Transactional
     public CommentResponse addComment(Long postId, CommentRequest request) {
@@ -133,6 +134,18 @@ public class CommentService {
                 viralityService.incrementViralityScore(postId, type);
             }catch (Exception e) {
                 log.error("Failed to update virality score", e);
+            }
+
+            // Send notification
+            try{
+                if (request.authorType() == AuthorType.BOT && targetHumanId != null) {
+                    notificationService.handleBotInteraction(
+                            targetHumanId,
+                            "Bot " + request.authorId() + " replied to your post"
+                    );
+                }
+            }catch ( Exception e){
+                log.error("Notification failed for userId={}", targetHumanId, e);
             }
 
             return toCommentResponse(saved);
